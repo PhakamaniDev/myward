@@ -21,17 +21,7 @@ const Ward = () => {
     justifyContent:'center',
     alignItems:'center'
   };
-  const getWard = async () => {
-    await axios
-      .get(`https://vd-change-api.da-io.net/ward/${wardCode}`)
-      .then((response) => {
-        setWard(response.data);
-        console.log(response.data.changes);
-      })
-      .catch((e) => {
-        console.error(e.message);
-      });
-  };
+
 
   const Type = (type) => {
     console.log("my type", type);
@@ -49,8 +39,19 @@ const Ward = () => {
   };
 
   useEffect(() => {
+    const getWard = async () => {
+      try {
+        const response = await axios.get(`https://vd-change-api.da-io.net/ward/${wardCode}`);
+        setWard(response.data);
+        console.log(response.data.changes);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
     getWard();
-  }, []);
+  }, [wardCode]);
+
   return (
     <div className="container ">
       <Link style={styles} to="/">
